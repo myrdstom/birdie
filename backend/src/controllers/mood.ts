@@ -8,7 +8,7 @@ interface IEventCount {
   count: number;
   event_type: string;
   length: number;
-}
+
 
 moodController.get("/mood", (_, res) => {
   connection.query(COUNT_DISTINCT_QUERY, (err: any, rows: IEventCount) => {
