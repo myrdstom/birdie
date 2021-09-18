@@ -1,24 +1,29 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { call, put, take, actionChannel } from 'redux-saga/effects';
 import axios from 'axios';
-import { getEventsSuccess, GET_EVENTS } from '../actions/types';
+import { getEventsSuccess, GET_EVENTS, getEventsFailure } from '../actions/types';
 import { baseUrl } from '../../config/api';
-import { SuccessEventsGenerator } from '../../helpers/globalInterfaces';
+import { SuccessEventsGenerator, actionInterface } from '../../helpers/globalInterfaces';
 
-const getEventTypes = async (url: string) => {
+export const getEventTypes = async (url: string) => {
     const data = await axios.get(url);
     return data.data;
 };
 
-function* getEventsSaga() {
+export function* getEventsSaga(payload: string) {
     try {
-        const url = `${baseUrl}/hello`;
+        const url = `${baseUrl}/mood/${payload}`;
         const eventsData: SuccessEventsGenerator = yield call(getEventTypes, url);
         yield put(getEventsSuccess(eventsData));
     } catch (error) {
-        console.warn(e, 'the error');
+        yield put(getEventsFailure(error));
     }
 }
 
 export function* getEventWatcher() {
-    yield takeLatest(GET_EVENTS as any, getEventsSaga);
+    const subEvent: actionInterface = yield actionChannel(GET_EVENTS);
+
+    while (true) {
+        const { payload } = yield take(subEvent as any);
+        yield call(getEventsSaga, payload);
+    }
 }

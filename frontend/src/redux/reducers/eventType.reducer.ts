@@ -1,9 +1,10 @@
-import { GET_EVENTS_SUCCESS } from '../actions/types';
+import { GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE } from '../actions/types';
 import { BaseAction } from '../../helpers/globalInterfaces';
 
 export const initialState = {
     events: null,
-    loading: true
+    loading: true,
+    error: null
 };
 
 const eventTypeReducer = (state = initialState, action: BaseAction) => {
@@ -12,7 +13,16 @@ const eventTypeReducer = (state = initialState, action: BaseAction) => {
             return {
                 ...state,
                 events: action.payload,
-                loading: false
+                loading: false,
+                error: null
+            };
+
+        case GET_EVENTS_FAILURE:
+            return {
+                ...state,
+                events: null,
+                loading: false,
+                error: action.payload.response.data
             };
 
         default:

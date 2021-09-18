@@ -1,9 +1,0 @@
-{
-  "plugins": ["stylelint-prettier"],
-  "rules": {
-    "prettier/prettier": true,
-    "no-empty-source": null,
-    "no-duplicate-selectors": true
-  },
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"]
-}

@@ -10,7 +10,6 @@ export const connection = mysql.createConnection({
   database: env.DB_NAME,
 });
 
-connection.connect((err: any) => {
+connection.connect((err: string) => {
   if (err) throw err;
-  console.log("Connected to MySQL Server!");
 });
