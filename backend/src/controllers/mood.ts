@@ -7,11 +7,18 @@ export const moodController = express.Router();
 interface IEventCount {
   count: number;
   event_type: string;
-}
+  length: number;
+
 
 moodController.get("/mood", (_, res) => {
   connection.query(COUNT_DISTINCT_QUERY, (err: any, rows: IEventCount) => {
     if (err) throw err;
+    console.log(rows, "the rows =====>");
+    if (rows.length === 0) {
+      res.status(400).json({
+        message: "Invalid id",
+      });
+    }
     res.status(200).json({
       events: rows,
     });

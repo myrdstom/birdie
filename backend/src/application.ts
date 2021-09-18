@@ -5,9 +5,9 @@ import { pingController } from "./controllers/ping";
 import { moodController } from "./controllers/mood";
 
 const app = express();
+app.use(cors());
 
 app.use(pingController);
 app.use(moodController);
-app.use(cors());
 
 export default app;
