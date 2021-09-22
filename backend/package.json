@@ -11,10 +11,11 @@
   "scripts": {
     "clean": "rimraf lib && rimraf coverage",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
-    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "test": "jest",
+    "lint": "eslint src --fix",
+    "test": "env-cmd -f .env jest  --coverage  --forceExit ",
     "test:watch": "jest --watch",
-    "dev": "env-cmd -f .env  nodemon"
+    "dev": "env-cmd -f .env  nodemon",
+    "start": "env-cmd -f .env  nodemon src/index.ts"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
